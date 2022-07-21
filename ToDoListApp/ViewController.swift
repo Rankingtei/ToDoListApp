@@ -14,10 +14,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     let tableView: UITableView = {
         let table = UITableView()
         table.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        table.translatesAutoresizingMaskIntoConstraints = false
         return table
     }()
     
-    let floatingButton: UIButton = {
+    let floatingAddButton: UIButton = {
         let button = UIButton(frame: CGRect(x: 0, y: 0, width: 60, height: 60))
         button.layer.cornerRadius = 30
         button.backgroundColor = .gray
@@ -34,12 +35,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        view.addSubview(tableView)
+        configureTableView()
         getAllItems()
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.frame = view.bounds
-        view.addSubview(floatingButton)
         configureAddButton()
         
     }
@@ -47,15 +44,23 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        floatingButton.frame = CGRect(x: Int(view.frame.size.width) - 80,
+        floatingAddButton.frame = CGRect(x: Int(view.frame.size.width) - 80,
                                       y: Int(view.frame.size.height) - 100,
                                       width: 60,
                                       height: 60)
     }
     
+    func configureTableView(){
+        view.addSubview(tableView)
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.frame = view.bounds
+    }
+    
     
     func configureAddButton(){
-        floatingButton.addTarget(self, action: #selector(didTapAdd), for: .touchUpInside)
+        view.addSubview(floatingAddButton)
+        floatingAddButton.addTarget(self, action: #selector(didTapAdd), for: .touchUpInside)
         
     }
     
@@ -71,7 +76,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }))
         present(alert, animated: true)
     }
-    
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -91,7 +95,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let item = models[indexPath.row]
-        let sheet = UIAlertController(title: "Edit", message: nil,  preferredStyle: .actionSheet)
+        let sheet = UIAlertController(title: "Edit Task", message: nil,  preferredStyle: .actionSheet)
         
         sheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         sheet.addAction(UIAlertAction(title: "Edit", style: .default, handler: {_ in
