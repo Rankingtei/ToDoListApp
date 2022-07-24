@@ -36,7 +36,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         configureTableView()
-        getAllItems()
+        fetchTasks()
         configureAddButton()
         
     }
@@ -66,7 +66,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     
     @objc private func didTapAdd(){
-        let alert = UIAlertController(title: "New Task", message: "Enter new Task", preferredStyle: .alert)
+        let alert = UIAlertController(title: "New Task", message: "Create new Task", preferredStyle: .alert)
         alert.addTextField(configurationHandler: nil)
         alert.addAction(UIAlertAction(title: "Submit", style: .cancel, handler: { [weak self] _ in
             guard let field  = alert.textFields?.first, let text = field.text, !text.isEmpty else {
@@ -120,7 +120,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     
-    func getAllItems (){
+    func fetchTasks (){
         
         do {
             models = try context.fetch(ToDoListItem.fetchRequest())
@@ -137,7 +137,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let newItem  = ToDoListItem(context: context)
         newItem.name = name
         newItem.createdAt = Date()
-        getAllItems()
+        fetchTasks() 
         
         do{
             try context.save()
@@ -152,7 +152,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         context.delete(item)
         do{
             try context.save()
-            getAllItems()
+            fetchTasks()
         }
         catch{
             //error
@@ -164,7 +164,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         do{
             try context.save()
-            getAllItems()
+            fetchTasks()
         }
         catch{
             //error
