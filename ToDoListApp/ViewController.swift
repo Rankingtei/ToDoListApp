@@ -35,6 +35,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
+        configureNavigationVIew()
         configureTableView()
         fetchTasks()
         configureAddButton()
@@ -44,6 +45,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+       
         floatingAddButton.frame = CGRect(x: Int(view.frame.size.width) - 80,
                                       y: Int(view.frame.size.height) - 100,
                                       width: 60,
@@ -58,10 +60,27 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     
+    func configureNavigationVIew(){
+        let sortButton = UIBarButtonItem(title: "Sort", style: .plain, target: self, action: #selector(didTapSort))
+//        let sortButton  = UIBarButtonItem(barButtonSystemItem: .sort, target: self, action: #selector(didTapSort))
+        navigationItem.leftBarButtonItem = sortButton
+        sortButton.tintColor = .black
+            }
+                                        
+        
     func configureAddButton(){
         view.addSubview(floatingAddButton)
         floatingAddButton.addTarget(self, action: #selector(didTapAdd), for: .touchUpInside)
         
+    }
+    
+    @objc func didTapSort(){
+        if tableView.isEditing{
+            tableView.isEditing = false
+        }
+        else {
+            tableView.isEditing = true
+        }
     }
     
     
@@ -117,6 +136,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }))
         
         present(sheet, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        models.swapAt(sourceIndexPath.row, destinationIndexPath.row )
     }
     
     
