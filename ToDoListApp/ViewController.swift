@@ -35,7 +35,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        configureNavigationVIew()
+        configureSortButton()
         configureTableView()
         fetchTasks()
         configureAddButton()
@@ -60,9 +60,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     
-    func configureNavigationVIew(){
+    func configureSortButton(){
         let sortButton = UIBarButtonItem(title: "Sort", style: .plain, target: self, action: #selector(didTapSort))
-//        let sortButton  = UIBarButtonItem(barButtonSystemItem: .sort, target: self, action: #selector(didTapSort))
         navigationItem.leftBarButtonItem = sortButton
         sortButton.tintColor = .black
             }
