@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftUI
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
@@ -47,7 +48,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         super.viewDidLayoutSubviews()
        
         floatingAddButton.frame = CGRect(x: Int(view.frame.size.width) - 80,
-                                      y: Int(view.frame.size.height) - 100,
+                                      y: Int(view.frame.size.height) - 70,
                                       width: 60,
                                       height: 60)
     }
@@ -198,3 +199,24 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
 }
 
+
+struct ViewControllerRepresentable: UIViewControllerRepresentable {
+    
+    typealias UIViewControllerType = ViewController
+    
+    func updateUIViewController(_ uiViewController: ViewController, context: Context) {
+        
+    }
+    
+    func makeUIViewController(context: Context) -> ViewController {
+        return ViewController()
+    }
+}
+
+struct ViewControllerPreview: PreviewProvider {
+    
+    static var previews: some View {
+        ViewControllerRepresentable()
+    }
+    
+}
